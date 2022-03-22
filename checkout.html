@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            margin:0px;
+            background-color: #ef4f5f;
+        }
+        #container {
+            display: flex;
+            border: 1px solid black;
+            justify-content: flex-end;
+            gap: 20px;
+            padding: 10px 10px;
+            background-color: #fc8019;
+            
+        }
+        a{
+            text-decoration: none;
+        }
+        #logo{
+            height: 50px;
+            margin: auto;
+        }
+        #form_div{
+            padding: 30px 600px;
+            background-color: lightgoldenrodyellow;
+        }
+        /* form{
+          
+        } */
+    </style>
+
+</head>
+
+<body>
+    <div id="container">
+        <img id ="logo" src="https://www.themealdb.com/images/logo-small.png" alt="">
+        <p>Login</p>
+        <p>Signup</p>
+        <p><a href="menu.html">Menu</a></p>
+    </div>
+
+    <div id="form_div">
+        <form id="form">
+            <label >Name</label>
+            <input type="text" placeholder="Name">
+            <br><br>
+            <label for="">Phone</label>
+             <input type="number" placeholder="mobile">
+            <br><br>
+            <label for="">Address</label>
+             <input type="text" placeholder="Address">
+            <br><br>
+
+            <label for="">City</label>
+            <input type="text" placeholder="City">
+            <br><br>
+
+            <label for="">Pincode</label>
+            <input type="number" placeholder="Picode">
+            <br><br>
+
+            <input type="submit" id="submit">
+        </form>
+    </div>
+
+
+
+</body>
+
+</html>
+
+<script>
+    document.getElementById("submit").addEventListener("click", function () {
+        event.preventDefault()
+        setTimeout(()=>{
+            alert("Your order is accepted")
+        },3000)
+
+        setTimeout(()=>{
+            alert("Your order is being Cooked")
+        },5000)
+
+        setTimeout(()=>{
+            alert("Your order is ready")  
+        },8000)
+
+        setTimeout(()=>{
+            alert("Your order is out for delivery") 
+        },13000)
+    })
+</script>

@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            margin: 0px;
+            background-color: #ef4f5f;
+        }
+
+        img {
+            height: 250px;
+            width: 250px;
+            border-radius: 5px;
+            box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+
+        }
+
+        #dish {
+            margin-bottom: 10px;
+
+        }
+
+        #cart {
+            float: right;
+        }
+
+        #list {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            padding: 20px 120px;
+        }
+
+        #container {
+            display: flex;
+            border: 1px solid black;
+            justify-content: flex-end;
+            gap: 20px;
+            padding: 10px 10px;
+            background-color: #fc8019;
+            box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
+        }
+
+        #logo {
+            height: 50px;
+            margin: auto;
+        }
+
+        button {
+
+            border: none;
+            background-color: #fc8019;
+
+        }
+
+        .button:hover {
+            background-color: #4CAF50;
+            /* Green */
+            color: white;
+        }
+
+        a {
+            text-decoration: none;
+        }
+        h1{
+            padding: 5px 500px;
+            color: rgb(241, 236, 236);
+        }
+    </style>
+</head>
+
+<body>
+    <div id="container">
+        <img id="logo" src="https://www.themealdb.com/images/logo-small.png" alt="">
+
+        <select name="" id="Pricesort" onchange="priceSort">
+            <option value="">Filter</option>
+            <option value="low">Low To High</option>
+            <option value="high">High To Low</option>
+        </select>
+        <p>Login</p>
+        <p>Signup</p>
+        <p><a href="menu.html">Menu</a></p>
+        <button id="count">Cart Items</button>
+    </div>
+    <div>
+        <h1>Welcome To TheMealDB</h1>
+    </div>
+    <div id="list"></div>
+    <!-- <div id="cart">Cart Page </div> -->
+</body>
+
+</html>
+
+<script>
+
+
+    let list = document.getElementById("list");
+
+    async function Dishlist() {
+        try {
+            //   let dish = document.getElementById("dish").value;
+
+            let data = await fetch("https://www.themealdb.com/api/json/v1/1/filter.php?c=Seafood")
+
+            let user = await data.json();
+            let response = user.meals
+
+            // console.log(user)
+            showDish(response)
+        } catch (err) {
+            console.log("err :", err)
+        }
+    }
+
+    Dishlist()
+
+    function showDish(arr) {
+        list.innerHTML = ""
+
+        arr.forEach(function (el) {
+            let div = document.createElement("div")
+            let dish_name = document.createElement("p");
+            dish_name.innerText = el.strMeal;
+
+            let image = document.createElement("img");
+            image.src = el.strMealThumb;
+
+            let price = document.createElement("p");
+            price.innerText = Math.floor(Math.random() * (500 - 100) + 100)
+
+
+            let cart = document.createElement("p");
+            cart.innerText = "Add to Cart"
+
+            cart.addEventListener("click", function () {
+
+                let arr = JSON.parse(localStorage.getItem("Dishdata")) || []
+
+                let count_div = document.getElementById("count").textContent = `Total : ${arr.length + 1}`
+                console.log(count_div)
+
+
+                let obj = {
+                    image: image.src,
+                    name: dish_name.innerText,
+                    price: price.innerText,
+                    cart_count: count_div
+
+                }
+                arr.push(obj)
+
+                localStorage.setItem("Dishdata", JSON.stringify(arr))
+
+
+                // window.location.href="cart.html"
+            });
+
+            //sorting
+
+            div.append(image, dish_name, price, cart)
+            list.append(div)
+
+        })
+        document.getElementById("count").addEventListener("click", function () {
+            window.location.href = "cart.html"
+        })
+    }
+
+
+
+</script>

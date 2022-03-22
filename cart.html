@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            background-color: #ef4f5f;
+            margin: 0px;
+        }
+        #dishlist {
+            width: 900px;
+            padding: 10px;
+        }
+
+        img {
+            margin-top: 100px;
+            height: 200px;
+            width: 200px;
+        }
+
+        #total {
+            float: right;
+            margin-top: 10px;
+        }
+
+        #container {
+            display: flex;
+            border: 1px solid black;
+            justify-content: flex-end;
+            gap: 20px;
+            padding: 10px 10px;
+            background-color: #fc8019;
+           
+        }
+        a {
+            text-decoration: none;
+        }
+        hr{
+            margin-left: 50px;
+        }
+        #logo{
+            height: 50px;
+            margin: auto;
+        }
+      
+    </style>
+</head>
+
+<body>
+    <div id="container">
+        <img id ="logo" src="https://www.themealdb.com/images/logo-small.png" alt="">
+        <p>Login</p>
+        <p>Signup</p>
+        <p id="menu"><a href="menu.html">Menu</a></p>
+    </div>
+
+    <div id="main">
+        <h2 id="cartPage">Cart(0)</h2>
+        <div id="total">
+            <p id="Tprice">Total Price</p>
+            <button id="check"><a href="checkout.html">Checkout</a></button>
+        </div>
+        <hr>
+      
+        <div id="dishlist">Items List</div>
+
+
+    </div>
+
+</body>
+
+</html>
+
+<script>
+
+    let dish = document.getElementById("dishlist")
+
+    let data = JSON.parse(localStorage.getItem("Dishdata")) || []
+
+    let cart_count = data.length;
+
+    var sum1;
+
+  //  let price_sum;
+
+    //  console.log(data)
+    displayDish(data)
+
+    function displayDish(arr) {
+
+        dish.innerHTML = ""
+        arr.forEach(function (el, index) {
+         //   console.log(el);
+
+            let div = document.createElement("div")
+            let name = document.createElement("p")
+            name.innerText = el.name
+
+            let image = document.createElement("img");
+            image.src = el.image
+
+            let price = document.createElement("p");
+            price.textContent = el.price
+
+            sum1 = 0;
+            for(let i=0;i<data.length;i++){
+                sum1+=Number(data[i].price)
+            }
+
+
+            document.getElementById("Tprice").textContent = `Total Price: ${sum1}`
+
+            cartpage = document.getElementById("cartPage")
+            cartpage.innerText = `Cart ${cart_count}`
+
+            let remove = document.createElement("button");
+            remove.innerText = "Remove"
+
+            remove.addEventListener("click", function () {
+
+                removeItem(el,index);
+                //  data.splice(index,1);
+                // cart_count-=1;
+
+                // cartpage.innerText = `Cart ${cart_count}`
+
+                //  event.target.parentNode.remove()
+
+                // localStorage.setItem("Dishdata",JSON.stringify(data))
+              
+
+            })
+            div.append(image, name, price, remove)
+            dish.append(div)
+        }) 
+    }
+
+    
+    function removeItem(el,index) {
+
+      //  console.log("name :" ,el.name)
+         cart_count -= 1;
+        // 
+
+         data.splice(index, 1);
+
+      
+        let sum =0
+
+        for(let i=0;i<data.length;i++){
+            sum+=Number(data[i].price)
+           
+        }
+        // console.log(sum)
+        document.getElementById("Tprice").textContent = `Total Price - ${sum}`
+
+      //  console.log("x :",x.length)
+      cartpage = document.getElementById("cartPage")
+        cartpage.innerText = `Cart ${data.length}`
+
+       
+        localStorage.setItem("Dishdata", JSON.stringify(data));
+
+        displayDish(data)
+    }
+
+</script>
